@@ -33,3 +33,4 @@ WORKDIR /tmp/chruby-0.3.8
 RUN make install
 RUN echo 'source /usr/local/share/chruby/chruby.sh' > /etc/profile.d/chruby.sh
 RUN echo 'chruby 2.1' >> /etc/profile.d/chruby.sh
+RUN bash -l -c 'gem install bundler -N'
