@@ -16,21 +16,14 @@ ENV LANGUAGE en_AU.UTF-8
 # Install packages
 RUN apt-get update
 RUN apt-get upgrade -y
-RUN apt-get install wget git -y
+RUN apt-get install -y patch gawk g++ gcc make libc6-dev patch libreadline6-dev zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
 
-# Install ruby
-WORKDIR /tmp
-RUN wget -O ruby-install-0.4.3.tar.gz https://github.com/postmodern/ruby-install/archive/v0.4.3.tar.gz
-RUN tar -xzvf ruby-install-0.4.3.tar.gz
-WORKDIR /tmp/ruby-install-0.4.3/bin
-RUN ./ruby-install ruby 2.1
+# Create app user
+RUN addgroup --gid 9999 app
+RUN adduser --uid 9999 --gid 9999 --disabled-password --gecos "Application" app
+RUN usermod -L app
 
-# Install chruby
-WORKDIR /tmp
-RUN wget -O chruby-0.3.8.tar.gz https://github.com/postmodern/chruby/archive/v0.3.8.tar.gz
-RUN tar -xzvf chruby-0.3.8.tar.gz
-WORKDIR /tmp/chruby-0.3.8
-RUN make install
-RUN echo 'source /usr/local/share/chruby/chruby.sh' > /etc/profile.d/chruby.sh
-RUN echo 'chruby 2.1' >> /etc/profile.d/chruby.sh
-RUN bash -l -c 'gem install bundler -N'
+# # Install RVM
+RUN su -l app -c "curl -sSL https://get.rvm.io | bash"
+RUN su -l app -c "rvm autolibs 2; rvm install ruby-2.1.2"
+RUN su -l app -c "gem update -N"
