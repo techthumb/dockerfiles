@@ -1,5 +1,5 @@
-FROM phusion/baseimage:latest
-ENV DEBIAN_FRONTEND noninteractive
+FROM  phusion/baseimage:latest
+ENV   DEBIAN_FRONTEND noninteractive
 
 # Set timezone
 RUN ln -sf /usr/share/zoneinfo/Australia/Melbourne /etc/localtime
@@ -25,6 +25,13 @@ RUN addgroup --gid 9999 app
 RUN adduser --uid 9999 --gid 9999 --disabled-password --gecos 'Application' app
 RUN usermod -L app
 
-# # Install RVM
-RUN su -l app -c 'curl -sSL https://get.rvm.io | bash'
-RUN su -l app -c 'rvm autolibs 2; rvm install ruby-2.1.2'
+# Install ruby
+RUN su -l app -c 'curl http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz > /tmp/ruby-2.1.2.tar.gz'
+RUN su -l app -c 'cd /tmp; tar zxf ruby-2.1.2.tar.gz'
+RUN su -l app -c 'cd /tmp/ruby-2.1.2; ./configure --prefix=$HOME/.ruby'
+RUN su -l app -c 'cd /tmp/ruby-2.1.2; make'
+RUN su -l app -c 'cd /tmp/ruby-2.1.2; make install'
+RUN su -l app -c 'echo "export PATH=/home/app/.ruby/bin:$PATH" >> ~/.profile'
+RUN su -l app -c 'gem update --system -N'
+RUN su -l app -c 'gem uninstall rubygems-update'
+RUN su -l app -c 'gem install bundler -N'
