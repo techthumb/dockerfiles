@@ -28,7 +28,7 @@ RUN usermod -L app
 # Install ruby
 RUN su -l app -c 'curl http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz > /tmp/ruby-2.1.2.tar.gz'
 RUN su -l app -c 'cd /tmp; tar zxf ruby-2.1.2.tar.gz'
-RUN su -l app -c 'cd /tmp/ruby-2.1.2; ./configure --prefix=$HOME/.ruby'
+RUN su -l app -c 'cd /tmp/ruby-2.1.2; ./configure --prefix=$HOME/.ruby --disable-install-rdoc'
 RUN su -l app -c 'cd /tmp/ruby-2.1.2; make'
 RUN su -l app -c 'cd /tmp/ruby-2.1.2; make install'
 RUN su -l app -c 'echo "export PATH=/home/app/.ruby/bin:$PATH" >> ~/.profile'
