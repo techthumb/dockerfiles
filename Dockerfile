@@ -35,5 +35,4 @@ RUN su -l app -c 'echo "export PATH=/home/app/.ruby/bin:$PATH" >> ~/.profile'
 RUN su -l app -c 'gem update --system -N'
 RUN su -l app -c 'gem uninstall rubygems-update'
 RUN su -l app -c 'gem install bundler -N'
-RUN ls
 RUN chown -R app:app /home/app
