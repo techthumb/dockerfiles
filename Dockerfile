@@ -34,5 +34,5 @@ RUN su -l app -c 'cd /tmp/ruby-2.1.2; make install'
 RUN su -l app -c 'echo "export PATH=/home/app/.ruby/bin:$PATH" >> ~/.profile'
 RUN su -l app -c 'gem update --system -N'
 RUN su -l app -c 'gem uninstall rubygems-update'
-RUN su -l app -c 'gem install bundler -N'
+RUN su -l app -c 'gem install bundler puma -N'
 RUN chown -R app:app /home/app
