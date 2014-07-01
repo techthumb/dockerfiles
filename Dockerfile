@@ -18,7 +18,7 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y patch gawk g++ gcc make libc6-dev patch libreadline6-dev zlib1g-dev \
     libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev \
-    automake libtool bison pkg-config libffi-dev monit nginx
+    automake libtool bison pkg-config libffi-dev monit nginx git
 
 # Create app user
 RUN addgroup --gid 9999 app
